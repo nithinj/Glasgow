@@ -56,22 +56,21 @@ def daily_transaction_report(trans_dict):
     print("\n\t\tDAILY TRANSACTION REPORT")
     print('=' * (MAX_ENTITY_NAME + 30))
     print("DATE\t\tINCOMING\tOUTGOING")
-    "Price: $ %8.2f" % (356.08977)
     for date, settle in trans_dict.items():
         print("%s\t$ %12.2f\t$ %12.2f" %
               (date, settle.incoming, settle.outgoing))
 
 
-def entity_ranking_report(trans_dict, type):
+def entity_ranking_report(trans_dict, attr):
     """
     Generates entity ranking report from trans_dict.
-    attr of type can be "incoming" / "outgoing"
+    attr of attr can be "incoming" / "outgoing"
     """
-    print("\n\n\t\tENTITY RANKING REPORT - " + type.upper())
+    print("\n\n\t\tENTITY RANKING REPORT - " + attr.upper())
     print('=' * (MAX_ENTITY_NAME + 30))
-    print("RANK\tENTITY\t\t\t" + type.upper())
+    print("RANK\tENTITY\t\t\t" + attr.upper())
     rank = 1
-    if type == "incoming":
+    if attr == "incoming":
         for entity in sorted(trans_dict, key=lambda name:
                              trans_dict[name].incoming, reverse=True):
             if trans_dict[entity].incoming == 0:
@@ -79,7 +78,7 @@ def entity_ranking_report(trans_dict, type):
             print("%5d\t%s\t$ %15.2f" % (rank, entity[:MAX_ENTITY_NAME].ljust(
                 MAX_ENTITY_NAME), trans_dict[entity].incoming))
             rank += 1
-    elif type == "outgoing":
+    elif attr == "outgoing":
         for entity in sorted(trans_dict, key=lambda name:
                              trans_dict[name].outgoing, reverse=True):
             if trans_dict[entity].outgoing == 0:
