@@ -9,6 +9,12 @@ MAX_ENTITY_NAME = 20
 
 
 class Transaction(object):
+    """
+    Used to read raw transaction detail and process it for required information
+    we are interested in. Note, this does not store all the details of a
+    transaction. It is also assumed that input data is in certain specific
+    order separated by delimiter and having '8' columns.
+    """
 
     def __init__(self, row):
         row = row.split(DELIMITER)
@@ -22,6 +28,9 @@ class Transaction(object):
 
 
 class Amount_Settled(object):
+    """
+    Generic class for both daily and ranking reports
+    """
 
     def initialize(self):
         self.outgoing = 0.0
@@ -32,40 +41,49 @@ class Amount_Settled(object):
         self.update(transact)
 
     def update(self, transact):
+        """
+        Adds new transaction amount to the
+        incoming/outgoing value based on the type.
+        """
         if transact.type == BUY:
             self.outgoing += transact.USD_amount
         elif transact.type == SELL:
             self.incoming += transact.USD_amount
 
 
-def daily_transaction_report(trans):
+def daily_transaction_report(trans_dict):
+    """ Generates daily transaction report from trans_dict """
     print("\n\t\tDAILY TRANSACTION REPORT")
     print('=' * (MAX_ENTITY_NAME + 30))
     print("DATE\t\tINCOMING\tOUTGOING")
     "Price: $ %8.2f" % (356.08977)
-    for date, settle in trans.items():
+    for date, settle in trans_dict.items():
         print("%s\t$ %12.2f\t$ %12.2f" %
               (date, settle.incoming, settle.outgoing))
 
 
-def entity_ranking_report(trans, type):
+def entity_ranking_report(trans_dict, type):
+    """
+    Generates entity ranking report from trans_dict.
+    attr of type can be "incoming" / "outgoing"
+    """
     print("\n\n\t\tENTITY RANKING REPORT - " + type.upper())
     print('=' * (MAX_ENTITY_NAME + 30))
     print("RANK\tENTITY\t\t\t" + type.upper())
     rank = 1
     if type == "incoming":
-        for entity in sorted(trans, key=lambda name: trans[name].incoming, reverse=True):
-            if trans[entity].incoming == 0:
+        for entity in sorted(trans_dict, key=lambda name: trans_dict[name].incoming, reverse=True):
+            if trans_dict[entity].incoming == 0:
                 break
             print("%5d\t%s\t$ %15.2f" % (rank, entity[:MAX_ENTITY_NAME].ljust(
-                MAX_ENTITY_NAME), trans[entity].incoming))
+                MAX_ENTITY_NAME), trans_dict[entity].incoming))
             rank += 1
     elif type == "outgoing":
-        for entity in sorted(trans, key=lambda name: trans[name].outgoing, reverse=True):
-            if trans[entity].outgoing == 0:
+        for entity in sorted(trans_dict, key=lambda name: trans_dict[name].outgoing, reverse=True):
+            if trans_dict[entity].outgoing == 0:
                 break
             print("%5d\t%s\t$ %15.2f" % (rank, entity[:MAX_ENTITY_NAME].ljust(
-                MAX_ENTITY_NAME), trans[entity].outgoing))
+                MAX_ENTITY_NAME), trans_dict[entity].outgoing))
             rank += 1
 
 
