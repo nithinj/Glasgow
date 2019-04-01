@@ -9,7 +9,7 @@ This tool can be used to generate the following three reports based on everyday 
 * **ENTITY RANKING REPORT - OUTGOING:** Displays ranking of entities based on outgoing amount. 
 
 ### Input Format:
-Input is read from stdin. Each transcation should be separated with a newline. Each fields is then separated by a delimiter ("," / comma by default).
+Input is read from stdin. Each transcation should be separated with a newline. Each field is then separated by a delimiter ("," / comma by default).
 Following fiels are mandatory for correct output:
 * field1: entity
 * field2: transaction type (Buy/Sell)
