@@ -22,7 +22,9 @@ Following fiels are mandatory for correct output:
 reports.py should be invoked with python3. You can see the formatting of inputs from files under tests/
 On *nix, Use the following command to execute from current directory (Glasgow)
 
-python3 reports.py < tests/inp0
+```sh
+$ python3 reports.py < tests/inp0
+```
 
 Replace "tests/inp0" with your own test file.
 
