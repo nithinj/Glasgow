@@ -72,14 +72,16 @@ def entity_ranking_report(trans_dict, type):
     print("RANK\tENTITY\t\t\t" + type.upper())
     rank = 1
     if type == "incoming":
-        for entity in sorted(trans_dict, key=lambda name: trans_dict[name].incoming, reverse=True):
+        for entity in sorted(trans_dict, key=lambda name:
+                             trans_dict[name].incoming, reverse=True):
             if trans_dict[entity].incoming == 0:
                 break
             print("%5d\t%s\t$ %15.2f" % (rank, entity[:MAX_ENTITY_NAME].ljust(
                 MAX_ENTITY_NAME), trans_dict[entity].incoming))
             rank += 1
     elif type == "outgoing":
-        for entity in sorted(trans_dict, key=lambda name: trans_dict[name].outgoing, reverse=True):
+        for entity in sorted(trans_dict, key=lambda name:
+                             trans_dict[name].outgoing, reverse=True):
             if trans_dict[entity].outgoing == 0:
                 break
             print("%5d\t%s\t$ %15.2f" % (rank, entity[:MAX_ENTITY_NAME].ljust(
